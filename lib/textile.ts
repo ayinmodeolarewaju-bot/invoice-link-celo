@@ -237,6 +237,9 @@ async function signTakerControl(
   const { toHex } = await import("viem");
   const nonce = toHex(randomBytes(32));
   const issuedAt = Date.now();
+  if (!account.signTypedData) {
+    throw new Error("The agent account cannot sign typed data.");
+  }
   const signature = await account.signTypedData({
     domain: { name: "Textile Taker Control", version: "1", chainId },
     types: {

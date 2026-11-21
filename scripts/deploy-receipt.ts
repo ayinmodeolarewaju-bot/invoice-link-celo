@@ -20,7 +20,7 @@ const tag = requireAttributionTag();
 const account = requireAgentAccount();
 const chain = chainById(chainId);
 const compiled = compileReceipt();
-const data = deploymentData(compiled.abi, compiled.bytecode, account.address);
+const data = deploymentData(compiled.bytecode, account.address);
 const wallet = getAgentWallet(chain);
 const pub = getPublicClient(chain);
 

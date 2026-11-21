@@ -6,6 +6,8 @@ Built for [Agents Open for Business](https://www.loops.house/agents-open-for-bus
 
 The product shape borrows from the earlier NEAR Invoice Link (a shareable pay link and a receipt), and the settlement rail is new: Celo, Textile RFQ, cNGN, ERC-8004, and ERC-8021.
 
+This entry uses one agent wallet for the whole event. That address registers the ERC-8004 identity, sends the Textile swap, pays cNGN, and is the address you add to the Loops entry. The public attribution tag is `celo_6a388b8aedfb`. It is the default in `.env.example`. `lib/wallet.ts` is the only place a wallet client is built, and `withAttribution` from `@celo/attribution-tags` tags every send from that client. A mainnet send is refused when `ATTRIBUTION_TAG` is unset.
+
 ## Problem
 
 A designer in Lagos finishes a job for a client who pays in dollars. The client can send USDT today. The designer needs naira, in the name of a person who is not the freelancer's own wallet: a collaborator, a supplier, a family member. Correspondent banks take days. An OTC desk asks for a relationship and a minimum.
@@ -172,6 +174,16 @@ Mainnet is `--chain celo`. Do that only by following [MAINNET_RUNBOOK.md](MAINNE
 ## Demo
 
 [DEMO.md](DEMO.md) is a two-minute script. The short version: say the sentence, open the pay link, run the corridor (simulated, or live once the runbook is done), and land on the receipt.
+
+## Verified without spending
+
+On 21 Nov 2026, from this repository, with no transaction sent:
+
+- `npm test` covers the invoice token, the sentence parser, the Textile request body (`includeAttribution: false`), the refusal to build a wallet when `ATTRIBUTION_TAG` is missing, and a send through that wallet client whose calldata decodes to `celo_6a388b8aedfb`.
+- `npm run check:registries` read code at the Identity Registry: 130 bytes on Celo mainnet `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432` and 130 bytes on Celo Sepolia `0x8004A818BFB912233c491871b3d84c89A494BD9e`.
+- `npm run preview:quote` received an indicative Textile preview for 1 USDT → cNGN on Celo: `buyAmount` `1444417155` (about 1,444.42 cNGN) and `takerPays` `1000000`. That is not a firm quote and it was not executed.
+- The app, with `TEXTILE_MODE=mock`, created an invoice from “invoice Acme $50, pay out to Ada in naira”, simulated settlement, and showed a receipt stamped SIMULATED with the tag and no transaction hashes.
+- `npm run register:8004 -- --chain celo` exits before sending, because `--confirm-mainnet` was not passed.
 
 ## What this project will not do
 

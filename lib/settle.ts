@@ -313,9 +313,9 @@ async function assertTagged(
   }
 }
 
-export function deploymentData(abi: readonly unknown[], bytecode: Hex, agent: Address): Hex {
+export function deploymentData(bytecode: Hex, agent: Address): Hex {
   return encodeDeployData({
-    abi: abi as never,
+    abi: invoiceReceiptAbi,
     bytecode,
     args: [agent],
   });

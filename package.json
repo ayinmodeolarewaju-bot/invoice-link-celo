@@ -2,6 +2,7 @@
   "name": "invoice-link-celo",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Invoice a client in USDT on Celo. Convert to cNGN through Textile FX and pay a named recipient.",
   "scripts": {
     "dev": "next dev",

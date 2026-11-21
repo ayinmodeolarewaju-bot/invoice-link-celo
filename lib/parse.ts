@@ -9,6 +9,16 @@ export type ParseResult = {
 
 const ADDRESS_RE = /0x[a-fA-F0-9]{40}/;
 
+export function missingFields(draft: InvoiceDraft): string[] {
+  const missing: string[] = [];
+  if (!draft.clientName) missing.push("clientName");
+  if (!draft.amount) missing.push("amount");
+  if (!draft.recipientName) missing.push("recipientName");
+  if (!draft.recipient) missing.push("recipient");
+  if (draft.outsideTeam !== true) missing.push("outsideTeam");
+  return missing;
+}
+
 export function parseUtterance(message: string): ParseResult {
   const original = message.trim();
   let text = original.replace(/\s+/g, " ");
@@ -43,12 +53,7 @@ export function parseUtterance(message: string): ParseResult {
 
   if (/\boutside (?:the |my )?team\b/i.test(original)) draft.outsideTeam = true;
 
-  const missing: string[] = [];
-  if (!draft.clientName) missing.push("clientName");
-  if (!draft.amount) missing.push("amount");
-  if (!draft.recipientName) missing.push("recipientName");
-  if (!draft.recipient) missing.push("recipient");
-  if (draft.outsideTeam !== true) missing.push("outsideTeam");
+  const missing = missingFields(draft);
 
   let question: string | null = null;
   if (missing.includes("recipient") && draft.recipientName) {

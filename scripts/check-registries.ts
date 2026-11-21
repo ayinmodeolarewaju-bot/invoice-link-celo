@@ -5,6 +5,12 @@ import { loadLocalEnv } from "../lib/env";
 
 loadLocalEnv();
 
+main().catch((error: unknown) => {
+  console.error(error instanceof Error ? error.message : error);
+  process.exit(1);
+});
+
+async function main() {
 const targets = [
   { chain: celo, label: "Celo mainnet" },
   { chain: celoSepolia, label: "Celo Sepolia" },
@@ -27,3 +33,4 @@ for (const target of targets) {
 
 if (failed) process.exit(1);
 console.log("Read-only check. No transaction was sent.");
+}
