@@ -1,0 +1,34 @@
+{
+  "name": "invoice-link-celo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Invoice a client in USDT on Celo. Convert to cNGN through Textile FX and pay a named recipient.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest run",
+    "check:registries": "tsx scripts/check-registries.ts",
+    "preview:quote": "tsx scripts/preview-quote.ts",
+    "register:8004": "tsx scripts/register-8004.ts",
+    "deploy:receipt": "tsx scripts/deploy-receipt.ts",
+    "settle": "tsx scripts/settle-invoice.ts"
+  },
+  "dependencies": {
+    "@celo/attribution-tags": "^0.5.0",
+    "next": "^15.5.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "viem": "^2.38.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.17.0",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "solc": "0.8.28",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
